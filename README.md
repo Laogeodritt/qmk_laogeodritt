@@ -1,59 +1,41 @@
-# QMK Userspace
+# Laogeodritt's QMK Keymaps
 
-This is a template repository which allows for an external set of QMK keymaps to be defined and compiled. This is useful for users who want to maintain their own keymaps without having to fork the main QMK repository.
+This repository contains all of Laogeodritt's keymaps for the [QMK keyboard firmware](https://qmk.fm/).
 
-## Howto configure your build targets
+This is an [external userspace repository](https://docs.qmk.fm/newbs_external_userspace)---that is, this repository is not a fork of the [qmk_firmware](https://github.com/qmk/qmk_firmware) repository, but the QMK CLI tool can compile keymaps contained here against the firmware sources.
 
-1. Run the normal `qmk setup` procedure if you haven't already done so -- see [QMK Docs](https://docs.qmk.fm/#/newbs) for details.
-1. Fork this repository
-1. Clone your fork to your local machine
-1. Enable userspace in QMK config using `qmk config user.overlay_dir="$(realpath qmk_userspace)"`
-1. Add a new keymap for your board using `qmk new-keymap`
-    * This will create a new keymap in the `keyboards` directory, in the same location that would normally be used in the main QMK repository. For example, if you wanted to add a keymap for the Planck, it will be created in `keyboards/planck/keymaps/<your keymap name>`
-    * You can also create a new keymap using `qmk new-keymap -kb <your_keyboard> -km <your_keymap>`
-    * Alternatively, add your keymap manually by placing it in the location specified above.
-    * `layouts/<layout name>/<your keymap name>/keymap.*` is also supported if you prefer the layout system
-1. Add your keymap(s) to the build by running `qmk userspace-add -kb <your_keyboard> -km <your_keymap>`
-    * This will automatically update your `qmk.json` file
-    * Corresponding `qmk userspace-remove -kb <your_keyboard> -km <your_keymap>` will delete it
-    * Listing the build targets can be done with `qmk userspace-list`
-1. Commit your changes
+For more information on the keymaps contained here, please refer to the README files of each keymap (and potentially its source code for more details), linked below.
 
-## Howto build with GitHub
+## List of keymaps
 
-1. In the GitHub Actions tab, enable workflows
-1. Push your changes above to your forked GitHub repository
-1. Look at the GitHub Actions for a new actions run
-1. Wait for the actions run to complete
-1. Inspect the Releases tab on your repository for the latest firmware build
+* [Planck QWERTY layout](keyboards/planck/keymaps/arenthil): Based on the default OLKB layout. Optimised for programming, with easy access to punctuation/symbols, and for multilingual users, with AltGr and access to special deadkeys present on Laogeodritt's Polyglot keyboard layout for Windows (TODO: add link).
+* [Planck Sibelius layout](keyboards/planck/keymaps/arenthil_sibelius): A dedicated macro layout intended for inputting music with Sibelius, a music notation application. It is intended for use with a full-size or TKL keyboard for text entry and keyboard shortcuts used for other parts of the Sibelius workflow (e.g. editing, formatting, playback).
 
-## Howto build locally
+## I just want to use your keymaps!
 
-1. Run the normal `qmk setup` procedure if you haven't already done so -- see [QMK Docs](https://docs.qmk.fm/#/newbs) for details.
-1. Fork this repository
-1. Clone your fork to your local machine
-1. `cd` into this repository's clone directory
-1. Set global userspace path: `qmk config user.overlay_dir="$(realpath .)"` -- you MUST be located in the cloned userspace location for this to work correctly
-    * This will be automatically detected if you've `cd`ed into your userspace repository, but the above makes your userspace available regardless of your shell location.
-1. Compile normally: `qmk compile -kb your_keyboard -km your_keymap` or `make your_keyboard:your_keymap`
+Good news! I provide prebuilt binaries over at [Releases](Laogeodritt/qmk_laogeodritt/releases). To flash your keyboard with a compatible keymap:
 
-Alternatively, if you configured your build targets above, you can use `qmk userspace-compile` to build all of your userspace targets at once.
+1. Go to [Releases](Laogeodritt/qmk_laogeodritt/releases), and find the latest release of the keymap you're interested in.
+1. Download the `.bin` file corresponding to your keyboard and revision. *If such a corresponding file does not exist, you will probably need to compile it yourself (or even adapt the keymap to work with your keyboard)---sorry it's not quite as straightforward as flashing a binary! See the next section in this case.*
+1. Follow the QMK instructions for [flashing your keyboard](https://docs.qmk.fm/newbs_flashing#stm32-arm). This page includes instructions for both Windows and Linux.
 
-## Extra info
 
-If you wish to point GitHub actions to a different repository, a different branch, or even a different keymap name, you can modify `.github/workflows/build_binaries.yml` to suit your needs.
+## I want to compile your keymaps myself
 
-To override the `build` job, you can change the following parameters to use a different QMK repository or branch:
-```
-    with:
-      qmk_repo: qmk/qmk_firmware
-      qmk_ref: master
-```
+1. Make sure you've already [set up your QMK environment](https://docs.qmk.fm/newbs_getting_started).
+1. Clone this repository to your computer, using the git command-line utility (on Windows, you can use git-bash): `git clone https://github.com/Laogeodritt/qmk_laogeodritt.git`
+1. `cd` into the clone's directory: `cd qmk_laogeodritt/`
+1. Run the command `qmk userspace-compile` to compile all my keymaps. You can also use `qmk compile -kb <keyboard> -km <keymap>` to compile one specific keymap for one specific keyboard, as normal with QMK. Refer to the [tutorial](https://docs.qmk.fm/newbs_building_firmware) or [command reference](https://docs.qmk.fm/cli_commands) for more information.
 
-If you wish to manually manage `qmk_firmware` using git within the userspace repository, you can add `qmk_firmware` as a submodule in the userspace directory instead. GitHub Actions will automatically use the submodule at the pinned revision if it exists, otherwise it will use the default latest revision of `qmk_firmware` from the main repository.
 
-This can also be used to control which fork is used, though only upstream `qmk_firmware` will have support for external userspace until other manufacturers update their forks.
+## I want to customize your keymap
 
-1. (First time only) `git submodule add https://github.com/qmk/qmk_firmware.git`
-1. (To update) `git submodule update --init --recursive`
-1. Commit your changes to your userspace repository
+Please feel free! These keymaps are released under the GNU Public Licence, just like QMK. I cannot promise any support with git or programming for QMK, but if you're familiar or willing to learn it, feel free to play with these keymaps!
+
+QMK has [extensive documentation](https://docs.qmk.fm/newbs) on how to get set up and using it, as well as a Discord community and the /r/OLKB subreddit for community support.
+
+
+## Resources
+
+* How to use an [external userspace repository](https://docs.qmk.fm/newbs_external_userspace)
+* [External userspace template](https://github.com/qmk/qmk_userspace) - You can fork this to make your own external userspace repository. Also includes instructions in its README.
