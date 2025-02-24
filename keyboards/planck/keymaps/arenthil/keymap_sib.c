@@ -14,9 +14,9 @@
    * Status: Public Domain (US, Canada)
    */
   float sib_song[][2]     = SONG(
-    MUSICAL_NOTE(_G5, 32+16+8), E__NOTE(_A5), MUSICAL_NOTE(_D5, 32+32+8), S__NOTE(_REST),
-    Q__NOTE(_D5), QD_NOTE(_F5), MUSICAL_NOTE(_E5, 3), MUSICAL_NOTE(_F5, 3), MUSICAL_NOTE(_E5, 2),
-    MUSICAL_NOTE(_D5, 32+32+8),
+        MUSICAL_NOTE(_G5, 32+16+8), Q__NOTE(_A5), MUSICAL_NOTE(_D5, 32+32+8), S__NOTE(_REST),
+        Q__NOTE(_D5), HD_NOTE(_F5), MUSICAL_NOTE(_E5, 5), MUSICAL_NOTE(_F5, 5), MUSICAL_NOTE(_E5, 6),
+        MUSICAL_NOTE(_D5, 32+32+8)
   );
   float sib_off_song[][2] = SONG(QWERTY_SOUND);
 #endif

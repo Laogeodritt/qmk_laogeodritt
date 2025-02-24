@@ -25,6 +25,13 @@ extern keymap_config_t keymap_config;
 void process_tapdance_dots(tap_dance_state_t *state, void *user_data);
 bool process_record_sib(uint16_t keycode, keyrecord_t* record);
 
+void keyboard_post_init_user(void) {
+    rgblight_enable_noeeprom();
+    rgblight_setrgb_range(0x5b, 0xce, 0xfa, 0, 9);
+    rgblight_setrgb_range(0xf5, 0xa9, 0xb8, 2, 7);
+    rgblight_setrgb_at(0xff, 0xff, 0xff, 4);
+}
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // Sibelius base layer
     [L_BASE] = LAYOUT_ortho_4x12(
